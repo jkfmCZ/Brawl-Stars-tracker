@@ -6,7 +6,14 @@
         {% block content %}
             <h1>ahoj - prvni stranka hrac zada tag</h1>
             <p>bla bla bla co se tu dozvis</p>
-            <button method="GET">random tag z databaze zkus to</button>
+            <!-- <button method="GET">random tag z databaze zkus to</button> -->
+
+            <form action = "" method = "POST">
+                {% csrf_token %} 
+                <label for="player_tag">Your Tag: </label>
+                <input id="player_tag" type="text" name="player_tag">
+                <input type="submit" value="OK">
+            </form> 
         {% endblock %}
     </body>
 </html>

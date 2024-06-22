@@ -1,0 +1,8 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <a href="/p/teamates">Teamates</a>
+    <h1>here graph</h1>
+    <div class="plotly-graph-div" id="plot-container"> {{ pie_plot|safe }}</div>
+    <div class="plotly-graph-div" id="plot-container"> {{ bar_plot|safe }}</div>
+{% endblock %}
