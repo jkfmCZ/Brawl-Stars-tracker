@@ -1,0 +1,10 @@
+{% extends "report.html" %}
+
+{% block report %}
+<h1>teamates</h1>
+<p>bla bla bla your team is trash</p>
+<h2>Wich brawler are they using the most</h2>
+<div class="plotly-graph-div" id="plot-container"> {{ used_plot|safe }}</div>    
+<h2>here is their brawlers trophies</h2>
+<div class="plotly-graph-div" id="plot-container"> {{ trophy_plot|safe }}</div>    
+{% endblock %}

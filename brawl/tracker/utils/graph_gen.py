@@ -23,3 +23,15 @@ def bar_ratio():
                 labels={'mode': 'Mode', 'count': 'Count', 'result_type': 'Result'},
                 title='Wins and Losses by Mode')
     return plot(fig, output_type="div")
+
+def team_braw():
+    fig = px.treemap(path=[teamates_df["brawler.name"].dropna(),teamates_df["brawler.power"].dropna(),teamates_df["name"].dropna()],title="most used brawlers")
+    return plot(fig, output_type="div")
+
+def team_braw_trophy():
+    fig = px.line(x=brawler_trophy["brawler.name"].first(),y=brawler_trophy["brawler.trophies"].mean(),title="mean trophies on teamates brawlers")
+    return plot(fig, output_type="div")
+
+def p_braw_wl():
+    fig = px.treemap(path=[battles_df["mode"],pl_brawlers["brawler.name"],results],title="used brawler by player vs wins/looses")
+    return plot(fig, output_type="div")

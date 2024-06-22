@@ -22,3 +22,12 @@ def p_games(request):
   
 
   return render(request, "p_games.html",{"pie_plot":pie_plot, "bar_plot":bar_plot })
+
+def p_team(request):
+  used_b = gen.team_braw 
+  trophy = gen.team_braw_trophy
+  return render(request, "p_team.html",{"used_plot":used_b,"trophy_plot":trophy})
+
+def p_braw(request):
+  b_tree = gen.p_braw_wl
+  return render (request, "p_brawl.html", {"braw_fig":b_tree})
