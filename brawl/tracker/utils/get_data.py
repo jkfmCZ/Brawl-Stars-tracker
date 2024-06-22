@@ -10,7 +10,8 @@ pl_tag = "#2Q0U9PJLP"
 with open(data, 'r', encoding='utf-8') as file:
     data = json.load(file)
 df = pd.DataFrame(data["items"])
-# print(df.info())
+
+print(df,df.info())
 
 battles_df = pd.json_normalize(df['battle'])
 # print(battles_df.info())
