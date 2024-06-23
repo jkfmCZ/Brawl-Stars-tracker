@@ -1,45 +1,67 @@
 import pandas as pd
 import json, os, requests, logging,  urllib.parse
-import plotly.express as px
+#tvuj api key
+api_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjA2MWZkZjI1LTIwMjgtNGEwNC1iNmFhLTEzYWM0ZWE0OGYyNCIsImlhdCI6MTcxOTA2MDQ3NCwic3ViIjoiZGV2ZWxvcGVyLzdjZjRiYzY2LTE1NTgtMjJjYS02NWIwLTNjOWJkNzMzYWY5ZCIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiNzguODAuMTEyLjYwIl0sInR5cGUiOiJjbGllbnQifV19.8OdKxcPZ22j6rFcC_jWW_m6VoTUph6KcrOs0vbqEKclabCwrmrjBRHx-cLSLeiTH79ML2SWG9H5cEZdY6mQ7kw"
 
 
-# docsne
-data = "/home/jkfm/Documents/GitHub/Brawl-Stars-tracker/brawl.json"
-pl_tag = "#2Q0U9PJLP"
+def battle_log(player_tag):
+    url = f"https://api.brawlstars.com/v1/players/{urllib.parse.quote(player_tag)}/battlelog"
+    response = requests.get(url, headers={"Authorization": f"Bearer {api_key}"})
+    if response.status_code != 200:
+        print(f"Failed to retrieve data for {player_tag}: {response.status_code}")
+        return []
+    df = response.json()
+    #jenom battle
+    df = pd.DataFrame(df["items"])
+    df = pd.json_normalize(df["battle"])
+    return df
+# df = pd.json_normalize(df['battle'])
 
-with open(data, 'r', encoding='utf-8') as file:
-    data = json.load(file)
-df = pd.DataFrame(data["items"])
+def player_log(player_tag):
+    url = f"https://api.brawlstars.com/v1/players/{urllib.parse.quote(player_tag)}"
+    response = requests.get(url, headers={"Authorization": f"Bearer {api_key}"})
+    if response.status_code != 200:
+        print(f"Failed to retrieve data for {player_tag}: {response.status_code}")
+        return []
+    df = response.json()
+    df = pd.json_normalize(df)
+    return df
 
-print(df,df.info())
+# print(player_log("#2Q0U9PJLP").info())
 
-battles_df = pd.json_normalize(df['battle'])
-# print(battles_df.info())
-team_count = []
-teams_df = pd.json_normalize(battles_df["teams"])
-for x in teams_df:
-    team_count.append(teams_df[x])
+def club_log(player_tag):
+    club_tag = player_log(player_tag)["club.tag"].loc[0]
+    url = f"https://api.brawlstars.com/v1/clubs/{urllib.parse.quote(club_tag)}"
+    response = requests.get(url, headers={"Authorization": f"Bearer {api_key}"})
+    if response.status_code != 200:
+        print(f"Failed to retrieve data for {club_tag}: {response.status_code}")
+        return []
+    df = response.json()
+    return df
+
+def brawles():
+    url = f"https://api.brawlstars.com/v1/brawlers"
+    response = requests.get(url, headers={"Authorization": f"Bearer {api_key}"})
+    if response.status_code != 200:
+        print(f"Failed to retrieve data for : {response.status_code}")
+        return []
+    df = response.json()
+    df = pd.json_normalize(df["items"])
+    return df
+
+def API_tester(player_tag):
+    url = f"https://api.brawlstars.com/v1/players/{urllib.parse.quote(player_tag)}/battlelog"
+   
+    response = requests.get(url, headers={"Authorization": f"Bearer {api_key}"})
+    df = response.json()
+    try:
+        df = pd.DataFrame(df["items"])
+    except:
+        return "invalid"
+
+    return "valid"
 
 
-
-teams_df =  pd.concat(team_count)
-teams_df = pd.json_normalize(teams_df.explode('brawlers'))
-pl_brawlers = teams_df[teams_df["tag"] == pl_tag]
-teamates_df = teams_df[teams_df["tag"] != pl_tag]
-# print(teamates_df)
-results = battles_df["result"].combine_first(battles_df["rank"])
-
-
-
-# teamsdd = pd.json_normalize(teams_df["tag"])
-
-brawler_trophy = teamates_df.groupby("brawler.name")
-# print(brawler_trophy["brawler.trophies"].mean())
-# print(brawler_trophy["brawler.name"].first())
-
-# print(battles_df["rank"].fillna(0).info(), battles_df["mode"].info())
-# print(battles_df["rank"])
-# print(teamates_df["brawler.power"])
 
 
 

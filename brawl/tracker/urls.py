@@ -7,4 +7,5 @@ urlpatterns = [
     path("p/games", views.p_games, name="players_game_repo"),
     path("p/team", views.p_team, name="players_teamates_repo"),
     path("p/brawlers", views.p_braw, name="players_brawlers_repo"),
+    path("p/club", views.p_club, name="players_clubs_repo"),
 ]

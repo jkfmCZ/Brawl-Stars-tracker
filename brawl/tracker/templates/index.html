@@ -8,12 +8,14 @@
             <p>bla bla bla co se tu dozvis</p>
             <!-- <button method="GET">random tag z databaze zkus to</button> -->
 
-            <form action = "" method = "POST">
-                {% csrf_token %} 
-                <label for="player_tag">Your Tag: </label>
-                <input id="player_tag" type="text" name="player_tag">
-                <input type="submit" value="OK">
-            </form> 
+            <form method="post" action="">
+                {% csrf_token %}
+                <p>pisto bez #</p>
+                <label for="player_tag">Your Tag: #</label>
+                <input type="text" name="validation" value="valid">
+                <button type="submit">Submit</button>
+            </form>
+            
         {% endblock %}
         {% block report %}
         {% endblock %}

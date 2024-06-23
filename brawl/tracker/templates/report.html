@@ -1,11 +1,22 @@
 {% extends "index.html" %}
 {% block content %}
-    <a href="/p/team">Teamates</a>
-    <a href="/p/games">Abouth your games</a>
-    <a href="/p/brawlers">Your brawlers</a>
-    <a href="/p"> Abouth you</a>
-    <a href="/p/club">You and your club (inproces)</a>
+    <a href="/p/team?tag={{tag}}">Teamates</a>
+    <a href="/p/games?tag={{tag}}">Abouth your games</a>
+    <a href="/p/brawlers?tag={{tag}}">Your brawlers</a>
+    <a href="/p?tag={{tag}}"> Abouth you</a>
+    <a href="/p/club?tag={{tag}}">You and your club</a>
+    <h3>tvuj tag: #{{tag}}</h3>
+    <a href="/">novy tag</a>
+    
 {% endblock %}
 {% block report %}
-    ahoj
+    <h1>{{pname}}</h1>
+    <h2>trophies:{{trophies}}   club: {{club}}</h2>
+    <h3>highest Trophies: {{highestTrophies}}</h3>
+    <h2>wins</h2>
+    <h3>solo: {{solowin}}    dup: {{duowin}}     3v3: {{vs3Victories}}</h3>
+
+
+    <div class="plotly-graph-div" id="plot-container"> {{ own|safe }}</div>
+
 {% endblock %}

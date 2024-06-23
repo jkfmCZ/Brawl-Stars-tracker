@@ -1,5 +1,7 @@
 {% extends "report.html" %}
 
 {% block report %}
-    <div class="plotly-graph-div" id="plot-container"> {{ braw_fig|safe }}</div>    
+    <div class="plotly-graph-div" id="plot-container"> {{ braw_lvl|safe }}</div>
+    <div class="plotly-graph-div" id="plot-container"> {{ braw_fig|safe }}</div>
+    <div class="plotly-graph-div" id="plot-container"> {{ braw_trophies|safe }}</div>    
 {% endblock %}
