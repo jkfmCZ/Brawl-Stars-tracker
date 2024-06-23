@@ -28,11 +28,13 @@ def bar_ratio(player_tag):
 
 def team_braw(player_tag):
     battles_df = battle_log(player_tag)
-    teams_df = (battles_df["teams"].combine_first(battles_df.iloc[:,14])).to_list()
+    teams_df = (battles_df["teams"]).to_list()
     flat_teams_list = [item for sublist in teams_df for team in sublist for item in team]
-    for sub in battles_df.iloc[:,14].dropna():
-        for team in sub:
-            flat_teams_list.append(team)
+    try:
+        for sub in battles_df.iloc[:,14].dropna():
+            for team in sub:
+                flat_teams_list.append(team)
+    except:print("upsik")
     teams_df = pd.json_normalize(flat_teams_list)
     teamates_df = teams_df[teams_df["tag"] != player_tag]
     fig = px.treemap(path=[teamates_df["brawler.name"].dropna(),teamates_df["brawler.power"].dropna(),teamates_df["name"].dropna()],title="most used brawlers")
@@ -40,11 +42,13 @@ def team_braw(player_tag):
 
 def team_braw_trophy(player_tag):
     battles_df = battle_log(player_tag)
-    teams_df = (battles_df["teams"].combine_first(battles_df.iloc[:,14])).to_list()
+    teams_df = (battles_df["teams"]).to_list()
     flat_teams_list = [item for sublist in teams_df for team in sublist for item in team]
-    for sub in battles_df.iloc[:,14].dropna():
-        for team in sub:
-            flat_teams_list.append(team)
+    try:
+        for sub in battles_df.iloc[:,14].dropna():
+            for team in sub:
+                flat_teams_list.append(team)
+    except:print("upsik")
     teams_df = pd.json_normalize(flat_teams_list)
     teamates_df = teams_df[teams_df["tag"] != player_tag]
     brawler_trophy = teamates_df.groupby("brawler.name")
@@ -53,11 +57,13 @@ def team_braw_trophy(player_tag):
 
 def p_braw_wl(player_tag):
     battles_df = battle_log(player_tag)
-    teams_df = (battles_df["teams"].combine_first(battles_df.iloc[:,14])).to_list()
+    teams_df = (battles_df["teams"]).to_list()
     flat_teams_list = [item for sublist in teams_df for team in sublist for item in team]
-    for sub in battles_df.iloc[:,14].dropna():
-        for team in sub:
-            flat_teams_list.append(team)
+    try:
+        for sub in battles_df.iloc[:,14].dropna():
+            for team in sub:
+                flat_teams_list.append(team)
+    except:print("upsik")
     teams_df = pd.json_normalize(flat_teams_list)
     pl_brawlers = teams_df[teams_df["tag"] == player_tag]
     results = battles_df["result"].combine_first(battles_df["rank"])
@@ -72,7 +78,10 @@ def player_info(player_tag):
     vs3Victories  = df_player["3vs3Victories"].values.item()
     solowin = df_player["soloVictories"].values.item()
     duowin = df_player["duoVictories"].values.item()
-    club = df_player["club.name"].values.item()
+    try:
+        club = df_player["club.name"].values.item()
+    except:
+        club = "Unknown"
     return {"pname": name,"trophies":trophies,"solowin":solowin,
             "highestTrophies":highestTrophies,"vs3Victories":vs3Victories,
             "duowin":duowin, "club":club}
@@ -134,11 +143,11 @@ def clubm_trophies(player_tag):
 
 def club_info(player_tag):
     df_club = pd.json_normalize(club_log(player_tag))
-    tag = df_club["tag"].values.item()
+    clubtag = df_club["tag"].values.item()
     name = df_club["name"].values.item()
     description = df_club["description"].values.item()
     type = df_club["type"].values.item()
     reg_trophy = df_club["requiredTrophies"].values.item
     trophies = df_club["trophies"].values.item
     return {'name': name, 'description': description, 'type': type, 
-            "tag": tag, 'reg_trophy': reg_trophy, "trophies":trophies}
+            "clubtag": clubtag, 'reg_trophy': reg_trophy, "trophies":trophies}

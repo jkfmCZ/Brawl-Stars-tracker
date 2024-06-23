@@ -9,7 +9,7 @@ from .utils import get_data
 
 def index(request):
     if request.method == 'POST':
-        tagb = request.POST.get('validation')
+        tagb = request.POST.get('validation').upper()
         tag= "#"+tagb
         validation = get_data.API_tester(tag)
         print(validation)
@@ -20,14 +20,14 @@ def index(request):
 
 def p_report(request):
   pl_tag = "#"+request.GET.get('tag')
-  
+  pl_tag_m = pl_tag[1:]
   validation = get_data.API_tester(pl_tag)
   print(validation)
   if validation == 'invalid':
             return render(request, "invalid_tag.html")
   else:
     own = gen.own_ornot(pl_tag)
-    dict_pre = {"own":own, "tag":pl_tag[1:]}
+    dict_pre = {"own":own, "tag":pl_tag_m}
     dict_f = dict_pre.copy()
     dict_f.update(gen.player_info(pl_tag))
     return render(request,"report.html", dict_f)
@@ -57,6 +57,7 @@ def p_team(request):
 
 def p_club(request):
   pl_tag = "#"+ request.GET.get('tag')
+  pl_tagm = pl_tag[1:]
   validation = get_data.API_tester(pl_tag)
   if validation == 'invalid':
             return render(request, "invalid_tag.html")
@@ -64,7 +65,7 @@ def p_club(request):
     members = gen.club_members(pl_tag)
     roles = gen.club_roles(pl_tag)
     trophies_plot = gen.clubm_trophies(pl_tag)
-    pre_dict = {"roles":roles,"tag":pl_tag[1:], "trophies_plot":trophies_plot, "members":members}
+    pre_dict = {"roles":roles,"tag":pl_tagm, "trophies_plot":trophies_plot, "members":members}
     dict_f = pre_dict.copy()
     dict_f.update(gen.club_info(pl_tag))
     return render(request, "p_club.html",dict_f)
