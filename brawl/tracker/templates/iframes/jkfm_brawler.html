@@ -1,15 +1,15 @@
-{% extends "report.html" %}
+{% extends "iframes/jkfm_rep.html" %}
 
 {% block report %}
-    <h1><b>{{pl_name}} and his brawlers</b></h1>
+    <h1><b>jkfm and his brawlers</b></h1>
     <hr style="margin-left: -5%;">
-    <h2>Here you can see {{pl_name}}'s brawlers and their power level</h2>
+    <h2>Here you can see jkfm's brawlers and their power level</h2>
 
     <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 388px; width: 921px;"> {{ braw_lvl|safe }}</div>
     <hr style="margin-left: -5%;">
-    <h2>Here on the oter hand you can see how often {{pl_name}} is winning with each brawler</h2>
+    <h2>Here on the oter hand you can see how often jkfm is winning with each brawler</h2>
     <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 388px; width: 921px;"> {{ braw_fig|safe }}</div>
     <hr style="margin-left: -5%;">
-    <h2>And here you can see {{pl_name}}'s brawlers current and highest trophies</h2>
+    <h2>And here you can see jkfm's brawlers current and highest trophies</h2>
     <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 388px; width: 921px;"> {{ braw_trophies|safe }}</div>    
 {% endblock %}

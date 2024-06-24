@@ -3,6 +3,7 @@ from .loader import updater
 import plotly.express as px
 import pandas as pd
 from plotly.offline import plot
+from datetime import datetime, date
 
 
 
@@ -10,8 +11,10 @@ def lossxwins(player_tag):
     battles_df = updater(player_tag, "battle")
     w_counter = battles_df["result"].apply(lambda x:1 if x == "victory" else 0).sum()
     l_counter = len(battles_df["result"]) - w_counter
-    fig = px.pie(values=[w_counter,l_counter], names=["wins","losses"], title="winsxlosses ratio")
+    fig = px.pie(values=[w_counter,l_counter], names=["wins","losses"])
     responce = plot(fig,output_type="div")
+    with open(f"lossxwins.html", "w",encoding="utf-8") as file:
+        file.write(responce)
     return responce
 
 def bar_ratio(player_tag):
@@ -19,13 +22,16 @@ def bar_ratio(player_tag):
     battles_df['victory'] = battles_df['result'].apply(lambda x: 1 if x == "victory" else 0)
     battles_df['defeat'] = battles_df['result'].apply(lambda x: 1 if x != "victory" else 0)
     # Agregace 
+    battles_df = battles_df.drop("time", axis='columns')
     agg_df = battles_df.groupby('mode').sum()[['victory', 'defeat']].reset_index()
     melted_df = agg_df.melt(id_vars='mode', value_vars=['victory', 'defeat'], var_name='result_type', value_name='count')
 
     fig = px.bar(melted_df, x='mode', y='count', color='result_type', barmode='group',
-                labels={'mode': 'Mode', 'count': 'Count', 'result_type': 'Result'},
-                title='Wins and Losses by Mode')
-    return plot(fig, output_type="div")
+                labels={'mode': 'Mode', 'count': 'Count', 'result_type': 'Result'})
+    p = plot(fig, output_type="div")
+    with open("bar_ratio.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
 
 def team_braw(player_tag):
     battles_df = updater(player_tag, "battle")
@@ -46,8 +52,11 @@ def team_braw(player_tag):
         except: print("upsik")
     teams_df = pd.json_normalize(flat_teams_list)
     teamates_df = teams_df[teams_df["tag"] != player_tag]
-    fig = px.treemap(path=[teamates_df["brawler.name"].dropna(),teamates_df["brawler.power"].dropna(),teamates_df["name"].dropna()],title="most used brawlers")
-    return plot(fig, output_type="div")
+    fig = px.treemap(path=[teamates_df["brawler.name"].dropna(),teamates_df["brawler.power"].dropna(),teamates_df["name"].dropna()])
+    p= plot(fig, output_type="div")
+    with open("team_braw.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
 
 def team_braw_trophy(player_tag):
     battles_df = updater(player_tag, "battle")
@@ -69,8 +78,12 @@ def team_braw_trophy(player_tag):
     teams_df = pd.json_normalize(flat_teams_list)  
     teamates_df = teams_df[teams_df["tag"] != player_tag]
     brawler_trophy = teamates_df.groupby("brawler.name")
-    fig = px.line(x=brawler_trophy["brawler.name"].first(),y=brawler_trophy["brawler.trophies"].mean(),title="mean trophies on teamates brawlers")
-    return plot(fig, output_type="div")
+    fig = px.line(x=brawler_trophy["brawler.name"].first(),y=brawler_trophy["brawler.trophies"].mean())
+    p= plot(fig, output_type="div")
+    with open("team_braw_trophy.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
+
 
 def p_braw_wl(player_tag):
     battles_df = updater(player_tag, "battle")
@@ -98,11 +111,16 @@ def p_braw_wl(player_tag):
             try:results = battles_df["rank"]
             except: results = battles_df["result"]
 
-    fig = px.treemap(path=[battles_df["mode"],pl_brawlers["brawler.name"],results],title="Used brawler by player vs wins/looses")
-    return plot(fig, output_type="div")
+    fig = px.treemap(path=[battles_df["mode"],pl_brawlers["brawler.name"],results])
+    p= plot(fig, output_type="div")
+    with open("p_braw_wl.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
 #player logs
 def player_info(player_tag):
     df_player = updater(player_tag, "player")
+    df = updater(player_tag, "battle")
+    games_today = df["time"][df["time"] == date.today()].count()
     name = df_player["name"].values.item()
     trophies = df_player["trophies"].values.item()
     highestTrophies = df_player["highestTrophies"].values.item()
@@ -115,7 +133,7 @@ def player_info(player_tag):
         club = "Unknown"
     return {"pname": name,"trophies":trophies,"solowin":solowin,
             "highestTrophies":highestTrophies,"vs3Victories":vs3Victories,
-            "duowin":duowin, "club":club}
+            "duowin":duowin, "club":club, "games_today":games_today}
 
 def p_brawl_lvl(player_tag):
     df_player = updater(player_tag, "player")
@@ -124,8 +142,11 @@ def p_brawl_lvl(player_tag):
     for col in df_pbrawl.columns:
         brawler_list.append(pd.json_normalize(df_pbrawl[col][0]))
     df_brawlers = pd.concat(brawler_list, ignore_index=True)
-    fig = px.treemap(df_brawlers, path=["power", "name"], title="Your Brawlers power")
-    return plot(fig, output_type="div")
+    fig = px.treemap(df_brawlers, path=["power", "name"])
+    p= plot(fig, output_type="div")
+    with open("p_brawl_lvl.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
 
 def p_brawl_trophy(player_tag):  
     df_player = updater(player_tag, "player")
@@ -135,8 +156,11 @@ def p_brawl_trophy(player_tag):
         brawler_list.append(pd.json_normalize(df_pbrawl[col][0]))
     df_brawlers = pd.concat(brawler_list, ignore_index=True)
     df_brawlers_long = df_brawlers.melt(id_vars=['name'], value_vars=['trophies', 'highestTrophies'],var_name='Trophy Type', value_name='Trophies')
-    fig = px.bar(df_brawlers_long, x='name', y='Trophies', color='Trophy Type', barmode='group',title='Current vs Maximum Trophies on Brawlers')
-    return plot(fig, output_type="div")
+    fig = px.bar(df_brawlers_long, x='name', y='Trophies', color='Trophy Type', barmode='group')
+    p= plot(fig, output_type="div")
+    with open("p_brawl_trophy.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
 
 def own_ornot(player_tag):
     df_player = updater(player_tag, "player")
@@ -147,20 +171,30 @@ def own_ornot(player_tag):
     df_brawlers = pd.concat(brawler_list, ignore_index=True)
     allb = brawles()
     allb['players'] = allb['name'].apply(lambda x: 'OWN' if x in df_brawlers["name"].tolist() else 'DOESNT HAVE YET')
-    fig = px.treemap(allb, path=["players","name"], title="Your brawlers")
-    return plot(fig, output_type= "div")
+    allb["rank"] = [df_brawlers["rank"][df_brawlers["name"] == x].values.item() if x in df_brawlers["name"].tolist() else 0 for x in allb['name']]
+    fig = px.treemap(allb, path=["players","name","rank"])
+    p= plot(fig, output_type= "div")
+    with open("own_ornot.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
 #club_logs
 def club_members(player_tag):
     df_club = updater(player_tag, "club")
     df_members = pd.json_normalize(df_club["members"])
-    fig = px.treemap(df_members,path=["trophies","name", "tag" ],title="Club members")
-    return plot(fig, output_type="div")
+    fig = px.treemap(df_members,path=["trophies","name", "tag" ])
+    p= plot(fig, output_type="div"),
+    with open("club_members.html", "w",encoding="utf-8") as file:
+        file.write(str(p))
+    return p
                 
 def club_roles(player_tag):
     df_club = updater(player_tag, "club")
     df_members = pd.json_normalize(df_club["members"])
-    fig=px.sunburst(df_members,path=["role","name"],title="Club roles")
-    return plot(fig, output_type="div")
+    fig=px.sunburst(df_members,path=["role","name"])
+    p=  plot(fig, output_type="div")
+    with open("club_roles.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
 
 def clubm_trophies(player_tag):               
     df_club = updater(player_tag, "club")
@@ -168,9 +202,11 @@ def clubm_trophies(player_tag):
     df_members['color'] = df_members['tag'].apply(lambda x: 'red' if x == player_tag else 'blue')
     df_members.sort_values(by=["trophies"])
     fig = px.bar(df_members, color="color", x="name",y="trophies",
-                 category_orders={"name": df_members.sort_values(by='trophies',ascending=False)['name'].tolist()}
-                ,title="Club members trophies")
-    return plot(fig, output_type="div")
+                 category_orders={"name": df_members.sort_values(by='trophies',ascending=False)['name'].tolist()})
+    p = plot(fig, output_type="div")
+    with open("clubm_trophies.html", "w",encoding="utf-8") as file:
+        file.write(p)
+    return p
 
 def club_info(player_tag):
     df_club = pd.json_normalize(updater(player_tag, "club"))
@@ -182,3 +218,9 @@ def club_info(player_tag):
     trophies = df_club["trophies"].values.item
     return {'name': name, 'description': description, 'type': type, 
             "clubtag": clubtag, 'reg_trophy': reg_trophy, "trophies":trophies}
+def player_name(player_tag):
+    df_player = updater(player_tag, "player")
+    df = df_player["name"].values.item()
+    return df
+
+

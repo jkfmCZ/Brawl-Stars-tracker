@@ -8,30 +8,28 @@
         </div>
   
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0  " style="margin-left: -8%;">
-          <li><a  class="nav-link px-2" href="/p/team?tag={{tag}}">{{pl_name}}'s Teammates</a></li>
-          <li><a  class="nav-link px-2" href="/p/games?tag={{tag}}">Abouth {{pl_name}}'s  games</a></li>
-          <li><a  class="nav-link px-2" href="/p/brawlers?tag={{tag}}">{{pl_name}}'s  brawlers</a></li>
-          <li><a  class="nav-link px-2" href="/p?tag={{tag}}"> Abouth {{pl_name}}</a></li>
-          <li><a  class="nav-link px-2" href="/p/club?tag={{tag}}">{{pl_name}} and his club</a></li>
+          <li><a  class="nav-link px-2" href="/iframe/team">jkfm's Teammates</a></li>
+          <li><a  class="nav-link px-2" href="/iframe/games">Abouth jkfm's  games</a></li>
+          <li><a  class="nav-link px-2" href="/iframe/brawlers">jkfm's  brawlers</a></li>
+          <li><a  class="nav-link px-2" href="/iframe"> Abouth jkfm</a></li>
+          <li><a  class="nav-link px-2" href="/iframe/club">jkfm and his club</a></li>
         </ul>
   
         <div class="col-md-3 text-end" bis_skin_checked="1">
-            <span class="fs-4" style="margin-left: -20%;">{{pl_name}}'s tag: #{{tag}}&ensp;&ensp;</span>
+            <span class="fs-4" style="margin-left: -20%;">jkfm's tag: #2Q0U9PJLP&ensp;&ensp;</span>
             <!-- <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="2Q0U9PJLP..." aria-label="Search"> -->
-            <button  onclick="location.href='/'" type="button" class="btn btn-outline-primary me-2">novy tag</button>
-            <button type="submit"  class="btn btn-primary" onclick="location.href='/p?tag={{random_t}}'">Random hrac</button>
         </div>
       </header>
       <h1 style="color: rgba(255, 255, 255, 0);">_<br>_</h1>
 {% endblock %}
 {% block report %}
-    <h1><b>{{pname}}</b></h1>
-    <h2>trophies:{{trophies}}&ensp;&ensp;  club: {{club}}&ensp;&ensp;  today's games: {{games_today}}</h2>
-    <h3>highest Trophies: {{highestTrophies}}</h3>
+    <h1><b>jkfm</b></h1>
+    <h2>trophies:17869&ensp;&ensp;  club: Milánci&ensp;&ensp;  today's games: 1</h2>
+    <h3>highest Trophies: 17869</h3>
     <h2>wins:</h2>
-    <h3>solo: {{solowin}}&ensp;    dup: {{duowin}}&ensp;     3v3: {{vs3Victories}}</h3>
+    <h3>solo: 214&ensp;    duo: 385&ensp;     3v3: 2324</h3>
     <hr style="margin-left: -5%;">
-    <h2>Here is an overview of {{pl_name}}'s  Brawlers</h2>
+    <h2>Here is an overview of jkfm's  Brawlers</h2>
     <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 921px; width: 921px; text-align: center"> {{ own|safe }}</div>
 
 {% endblock %}

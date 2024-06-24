@@ -1,13 +1,14 @@
-{% extends "report.html" %}
+{% extends "iframes/jkfm_rep.html" %}
 
 {% block report %}
     <!-- <a href="/p/teamates">Teamates</a> -->
-    <h1>{{pl_name}}'s games</h1>
-    <h3>let's see how {{pl_name}} is doing</h3>
+    <h1>jkfm's games</h1>
+    <h3>let's see how jkfm is doing</h3>
     <hr style="margin-left: -5%;">
     <h2>Losses and wins </h2>
     <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 921; width: 921px;"> {{ pie_plot|safe }}</div>
-    <h3>let's see what game mods {{pl_name}} is good in</h3>
+    <h3>let's see what game mods jkfm is good in</h3>
     <h2>The ratio of losses to wins in each gamemode</h2>
     <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 388px; width: 921px;"> {{ bar_plot|safe }}</div>
 {% endblock %}
+
