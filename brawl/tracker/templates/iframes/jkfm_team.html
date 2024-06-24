@@ -1,11 +1,11 @@
-{% extends "iframes/jkfm_rep.html" %}
+{% extends "iframes/jkfm_rep.html" %} {% load static %}
 
 {% block report %}
 <h1><b>Teammates</b></h1>
 <h3>Lets take a look on {{pl_name}}'s teammates</h3>
 <hr style="margin-left: -5%;">
 <h2>Wich brawler are they using the most:</h2>
-<div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 388px; width: 921px;"> {{ used_plot|safe }}</div>    
+<img src="{% static 'teamates_b.png' %}" alt="">   
 <h2>Here is a chart about their brawler's opponents</h2>
-<div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 388px; width: 921px;"> {{ trophy_plot|safe }}</div>    
+<img src="{% static 'team_trophy.png' %}" alt="">   
 {% endblock %}

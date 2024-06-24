@@ -1,4 +1,4 @@
-{% extends "iframes/jkfm_rep.html" %}
+{% extends "iframes/jkfm_rep.html" %}{% load static %}
 
 {% block report %}
     <h1>Milánci</h1>
@@ -8,11 +8,11 @@
     <h3>type: open&ensp;&ensp;   required Trophies: 15000&ensp;&ensp;   tag:#2UYCV0U8R</h3>
     <hr style="margin-left: -5%;">
     <h2>Lets take a look on Milánci's members</h2>
-    <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 500px; width: 921px;"> {{ members|safe }}</div>
+    <img src="{% static 'c_members.png' %}" alt="">
     <hr style="margin-left: -5%;">
     <h2>And here are their roles</h2>
-    <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 776; width: 921px;"> {{ roles|safe }}</div>
+    <img src="{% static 'roles.png' %}" alt="">
     <hr style="margin-left: -5%;">
     <h2>Here you can see their trophies</h2>
-    <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 388px; width: 921px;"> {{ trophies_plot|safe }}</div>
+    <img src="{% static 'club_trop.png' %}" alt="">
 {% endblock %}

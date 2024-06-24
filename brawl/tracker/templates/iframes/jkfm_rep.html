@@ -1,4 +1,5 @@
-{% extends "index.html" %}
+{% extends "index.html" %}{% load static %}
+
 {% block content %}
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom fixed-top" style="background-color:rgb(255, 255, 255);">
         <div class="col-md-3 mb-2 mb-md-0" bis_skin_checked="1">
@@ -30,6 +31,5 @@
     <h3>solo: 214&ensp;    duo: 385&ensp;     3v3: 2324</h3>
     <hr style="margin-left: -5%;">
     <h2>Here is an overview of jkfm's  Brawlers</h2>
-    <div class="my-4 w-100" id="myChart" width="921" height="388" style="display: block; box-sizing: border-box; height: 921px; width: 921px; text-align: center"> {{ own|safe }}</div>
-
+    <img src="{% static 'p_brawl.png' %}" >
 {% endblock %}

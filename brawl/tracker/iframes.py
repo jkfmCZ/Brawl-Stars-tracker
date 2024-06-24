@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.conf import settings
+import os
 
 def jkfm_report(request):
     return render(request, "iframes/jkfm_rep.html")

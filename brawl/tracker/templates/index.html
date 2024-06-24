@@ -7,29 +7,35 @@
     </head>
     <body>
   
-            
+ 
         {% block content %}
-            <h1>ahoj - prvni stranka hrac zada tag</h1>
-            <p>bla bla bla co se tu dozvis</p>
+             <h1 style="font: Fantasy; font-size:150px ;"><img src="{% static 'poco.png' %}" alt="" style="width: 10%;">Brawl Track</h1>
             <!-- <button method="GET">random tag z databaze zkus to</button> -->
 
 
 
         {% endblock %}
+        {% block bad_r %}
+        {% endblock %}   
         
         
         <div class="main">
             {% block report %}
             <form method="post" action="">
                 {% csrf_token %}
-                <p>pisto bez #</p>
-                <label for="player_tag">Your Tag: #</label>
-                <input type="text" name="validation" value="valid">
+                <h3>Enter tag to track stats</h3>
+                <label for="player_tag">Tag: #</label>
+                <input type="text" name="validation" value="2Q0U9PJLP">
                 <button type="submit">Submit</button>
+                <br><br><br>
                 
             </form>
+            <hr style="margin-left: -5%;">
+            <br>&ensp;<br>
+            <h2>Lets go take a look at real example</h2>
+            <hr style="margin-left: -5%;">
             <div class="iframe-container" style="text-align: center; margin: 20px 0;">
-                <iframe src="{{% url 'invalid_tag.html' %}}" title="description" width=87% height="400"></iframe>
+                <iframe src="/iframe" title="description" width=87% height="70%"></iframe>
             </div>
             {% endblock %}
         </div>

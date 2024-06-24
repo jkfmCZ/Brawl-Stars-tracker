@@ -1,4 +1,4 @@
-{% extends "index.html" %}
+{% extends "index.html" %}{% load static %}
 {% block content %}
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom fixed-top" style="background-color:rgb(255, 255, 255);">
         <div class="col-md-3 mb-2 mb-md-0" bis_skin_checked="1">
@@ -6,13 +6,15 @@
             <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
           </a>
         </div>
-  
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0  " style="margin-left: -8%;">
-          <li><a  class="nav-link px-2" href="/p/team?tag={{tag}}">{{pl_name}}'s Teammates</a></li>
+        <ul style="font: Fantasy;margin-left: -30%;" class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0  " style="margin-left: -8%;">
+          <div style="font:Fantasy;"><span style="font:Fantasy; margin-left: -50%;" class="fs-4"><img src="{% static 'poco.png' %}" class="bi me-2" width="40" height="32">Brawl Track</span></div>
+          &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+          &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
           <li><a  class="nav-link px-2" href="/p/games?tag={{tag}}">Abouth {{pl_name}}'s  games</a></li>
           <li><a  class="nav-link px-2" href="/p/brawlers?tag={{tag}}">{{pl_name}}'s  brawlers</a></li>
           <li><a  class="nav-link px-2" href="/p?tag={{tag}}"> Abouth {{pl_name}}</a></li>
           <li><a  class="nav-link px-2" href="/p/club?tag={{tag}}">{{pl_name}} and his club</a></li>
+          </div>
         </ul>
   
         <div class="col-md-3 text-end" bis_skin_checked="1">
