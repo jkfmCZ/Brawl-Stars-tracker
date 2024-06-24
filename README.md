@@ -22,7 +22,7 @@ Welcome to Brawl Track! This repository hosts a web application built using Djan
 
 
 #### Getting Started
-To run the Brawl Track application locally:![Uploading image.png…]()
+To run the Brawl Track application locally:
 
 
 1. **Clone the Repository**
