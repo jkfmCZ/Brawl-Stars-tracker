@@ -1,5 +1,6 @@
 import pandas as pd
 import json, os, requests, logging,  urllib.parse
+from tracker.models import Brawl_Tags
 #tvuj api key
 api_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjA2MWZkZjI1LTIwMjgtNGEwNC1iNmFhLTEzYWM0ZWE0OGYyNCIsImlhdCI6MTcxOTA2MDQ3NCwic3ViIjoiZGV2ZWxvcGVyLzdjZjRiYzY2LTE1NTgtMjJjYS02NWIwLTNjOWJkNzMzYWY5ZCIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiNzguODAuMTEyLjYwIl0sInR5cGUiOiJjbGllbnQifV19.8OdKxcPZ22j6rFcC_jWW_m6VoTUph6KcrOs0vbqEKclabCwrmrjBRHx-cLSLeiTH79ML2SWG9H5cEZdY6mQ7kw"
 
@@ -13,8 +14,11 @@ def battle_log(player_tag):
     df = response.json()
     #jenom battle
     df = pd.DataFrame(df["items"])
-    df = pd.json_normalize(df["battle"])
-    return df
+    # df_time = pd.json_normalize(df["battleTime"])
+    df_battle = pd.json_normalize(df["battle"])
+    # df_battle["time"] = 
+    return df_battle
+# print(battle_log("#232Q0U9PJLP"))
 # df = pd.json_normalize(df['battle'])
 
 def player_log(player_tag):
@@ -58,7 +62,8 @@ def API_tester(player_tag):
         df = pd.DataFrame(df["items"])
     except:
         return "invalid"
-
+    if not Brawl_Tags.objects.filter(tag=player_tag).exists():
+        Brawl_Tags(tag=player_tag).save()
     return "valid"
 
 

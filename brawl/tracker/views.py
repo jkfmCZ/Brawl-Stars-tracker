@@ -2,21 +2,27 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
 from .utils import graph_gen as gen
-from django.http import QueryDict
+import pandas as pd
+import random
 from .utils import get_data
+from .utils.loader import restarter, player_log_load,club_checker,battle_log_load,brawles
+from .models import Brawl_Tags
 
 # pl_tag = "#2Q0U9PJLP"
-
+restarter()
 def index(request):
+    count = Brawl_Tags.objects.count()
+    random_t = Brawl_Tags.objects.all().values()[random.randint(0, count - 1)]["tag"][1:]
     if request.method == 'POST':
         tagb = request.POST.get('validation').upper()
         tag= "#"+tagb
         validation = get_data.API_tester(tag)
         print(validation)
         if validation == 'valid':
+            restarter, player_log_load(tag),club_checker(tag),battle_log_load(tag),brawles
             return redirect(f'/p?tag={tagb}')
-        return render(request, "invalid_tag.html")
-    return render(request, "index.html")
+        return render(request, "invalid_tag.html", {"random_t":random_t})
+    return render(request, "index.html",{"random_t":random_t})
 
 def p_report(request):
   pl_tag = "#"+request.GET.get('tag')
@@ -62,13 +68,17 @@ def p_club(request):
   if validation == 'invalid':
             return render(request, "invalid_tag.html")
   else:
-    members = gen.club_members(pl_tag)
-    roles = gen.club_roles(pl_tag)
-    trophies_plot = gen.clubm_trophies(pl_tag)
-    pre_dict = {"roles":roles,"tag":pl_tagm, "trophies_plot":trophies_plot, "members":members}
-    dict_f = pre_dict.copy()
-    dict_f.update(gen.club_info(pl_tag))
-    return render(request, "p_club.html",dict_f)
+    club_check = club_checker(pl_tag)
+    if club_check == False:
+         return render(request, "no_club.html",{"tag":pl_tagm})
+    else:
+      members = gen.club_members(pl_tag)
+      roles = gen.club_roles(pl_tag)
+      trophies_plot = gen.clubm_trophies(pl_tag)
+      pre_dict = {"roles":roles,"tag":pl_tagm, "trophies_plot":trophies_plot, "members":members}
+      dict_f = pre_dict.copy()
+      dict_f.update(gen.club_info(pl_tag))
+      return render(request, "p_club.html",dict_f)
 
 def p_braw(request):
   pl_tag = "#"+request.GET.get('tag')

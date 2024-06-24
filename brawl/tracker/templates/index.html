@@ -15,9 +15,12 @@
                 <input type="text" name="validation" value="valid">
                 <button type="submit">Submit</button>
             </form>
-            
+
         {% endblock %}
         {% block report %}
         {% endblock %}
+        <h1>ramdom: #{{random_t}}</h1>
+        <button type="submit" onclick="location.href='/p?tag={{random_t}}'">Random hrac</button>
+        
     </body>
 </html>
