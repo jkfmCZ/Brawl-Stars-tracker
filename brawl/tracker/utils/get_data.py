@@ -56,11 +56,21 @@ def club_log(player_tag):
 def brawles():
     url = f"https://api.brawlstars.com/v1/brawlers"
     response = requests.get(url, headers={"Authorization": f"Bearer {api_key}"})
-    if response.status_code != 200:
-        print(f"Failed to retrieve data for : {response.status_code}")
-        return []
     df = response.json()
-    df = pd.json_normalize(df["items"])
+    try:
+        df = pd.json_normalize(df["items"])
+    except: df = pd.DataFrame({
+    "name": [
+    "CLANCY", "BERRY", "LILY", "DRACO", "ANGELO", "MELODIE", "LARRY & LAWRIE", 
+    "KIT", "MICO", "CHARLIE", "CHUCK", "PEARL", "DOUG", "CORDELIUS", "HANK", 
+    "MAISIE", "WILLOW", "R-T", "MANDY", "GRAY", "CHESTER", "BUSTER", "GUS", 
+    "SAM", "OTIS", "BONNIE", "JANET", "EVE", "FANG", "LOLA", "MEG", "ASH", 
+    "GRIFF", "BUZZ", "GROM", "SQUEAK", "BELLE", "STU", "RUFFS", "EDGAR", 
+    "BYRON", "LOU", "AMBER", "COLETTE", "SURGE", "SPROUT", "NANI", "GALE", 
+    "JACKY", "MAX", "MR. P", "EMZ", "BEA", "SANDY", "8-BIT", "BIBI", "CARL", 
+    "ROSA", "LEON", "TICK", "GENE", "FRANK", "PENNY", "DARRYL", "TARA", "PAM", 
+    "PIPER", "BO", "POCO", "CROW", "MORTIS", "EL PRIMO", "DYNAMIKE", "NITA", 
+    "JESSIE", "BARLEY", "SPIKE", "RICO", "BROCK", "BULL", "COLT", "SHELLY"]})
     return df
 
 def API_tester(player_tag):
@@ -73,16 +83,18 @@ def API_tester(player_tag):
     elif response.status_code == 403:
         return ["invalid","Error: Forbidden API:403"]
     elif response.status_code == 500:
+        # print("invalid")
         return ["invalid","Error: Supercells_problem:500"]
     elif response.status_code == 504:
         return ["invalid","Error: API is down:504"]
-    if response.status_code != [200,404,400,403,500,504]:
-        return ["invalid",f"Failed to retrieve data for {player_tag}: {response.status_code}"]
-    else:
-    
+    if response.status_code == 200:
         if not Brawl_Tags.objects.filter(tag=player_tag).exists():
             Brawl_Tags(tag=player_tag).save()
         return ["valid", ""]
+        
+    else:
+        return ["invalid",f"Failed to retrieve data for {player_tag}: {response.status_code}"]
+        
 
 
 
