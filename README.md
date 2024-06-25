@@ -38,7 +38,7 @@ To run the Brawl Track application locally:
    ```
 
 3. **Configure API Key**
-   Obtain an API key from the Brawl Stars API. Store it securely in your environment variables or configuration file (`settings.py`).
+   Obtain an API key from the Brawl Stars API. Store into .env file (API_KEY="-Your key here-")
 
 4. **Run the Application**
    Start the Django development server:
