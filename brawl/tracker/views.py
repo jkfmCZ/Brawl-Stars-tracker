@@ -21,10 +21,10 @@ def index(request):
         tag= "#"+tagb
         validation = get_data.API_tester(tag)
         print(validation)
-        if validation == 'valid':
+        if validation[0] == 'valid':
             restarter, player_log_load(tag),club_checker(tag),battle_log_load(tag),brawles
             return redirect(f'/p?tag={tagb}')
-        return render(request, "invalid_tag.html", {"random_t":random_tags})
+        return render(request, "invalid_tag.html", {"random_t":random_tags, "error":validation[1]})
     return render(request, "index.html",{"random_t":random_tags})
 
 def p_report(request):
@@ -32,8 +32,8 @@ def p_report(request):
   pl_tag_m = pl_tag[1:]
   validation = get_data.API_tester(pl_tag)
   print(validation)
-  if validation == 'invalid':
-            return render(request, "invalid_tag.html",{"random_t":random_tags})
+  if validation[0] == 'invalid':
+            return render(request, "invalid_tag.html",{"random_t":random_tags,"error":validation[1]})
   else:
     
     own = gen.own_ornot(pl_tag)
@@ -46,8 +46,8 @@ def p_games(request):
   pl_tag = "#"+request.GET.get('tag')
   validation = get_data.API_tester(pl_tag)
 
-  if validation == 'invalid':
-            return render(request, "invalid_tag.html",{"random_t":random_tags})
+  if validation[0] == 'invalid':
+            return render(request, "invalid_tag.html",{"random_t":random_tags,"error":validation[1]})
   else:
     pie_plot = gen.lossxwins(pl_tag)
     bar_plot = gen.bar_ratio(pl_tag)
@@ -58,20 +58,19 @@ def p_games(request):
 def p_team(request):
   pl_tag = "#"+request.GET.get('tag')
   validation = get_data.API_tester(pl_tag)
-  if validation == 'invalid':
-            return render(request, "invalid_tag.html",{"random_t":random_tags})
+  if validation[0] == 'invalid':
+            return render(request, "invalid_tag.html",{"random_t":random_tags,"error":validation[1]})
   else:
     used_b = gen.team_braw(pl_tag)
     trophy = gen.team_braw_trophy(pl_tag)
     return render(request, "p_team.html",{"pl_name":gen.player_name(pl_tag),"random_t":random_tags,"tag":pl_tag[1:],"used_plot":used_b,"trophy_plot":trophy})
-def tester(request):
-    return HttpResponse("nulo")
+
 def p_club(request):
   pl_tag = "#"+ request.GET.get('tag')
   pl_tagm = pl_tag[1:]
   validation = get_data.API_tester(pl_tag)
-  if validation == 'invalid':
-            return render(request, "invalid_tag.html",{"random_t":random_tags})
+  if validation[0] == 'invalid':
+            return render(request, "invalid_tag.html",{"random_t":random_tags,"error":validation[1]})
   else:
     club_check = club_checker(pl_tag)
     if club_check == False:
@@ -88,8 +87,8 @@ def p_club(request):
 def p_braw(request):
   pl_tag = "#"+request.GET.get('tag')
   validation = get_data.API_tester(pl_tag)
-  if validation == 'invalid':
-            return render(request, "invalid_tag.html",{"random_t":random_tags})
+  if validation[0] == 'invalid':
+            return render(request, "invalid_tag.html",{"random_t":random_tags,"error":validation[1]})
   else:
     b_tree = gen.p_braw_wl(pl_tag)
     braw_lvl = gen.p_brawl_lvl(pl_tag)
